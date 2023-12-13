@@ -3,28 +3,34 @@
 
 using namespace std;
 
+template<typename T>
+void printList(SinglyLinkedList<T>&);
+
+SinglyLinkedList<int> fillIntOrderList(int, int, int);
+
 int main()
 {
-    SinglyLinkedList<int> l;
-    l.appendElem(5);
-    l.appendElem(6);
-    l.appendElem(7);
-    l.appendElem(8);
+    SinglyLinkedList<int> list = fillIntOrderList(1, 6, 1);
+    printList(list);
+
+}
 
 
-    l.insertElem(100, 0);
-    
-
-    cout << "len " << l.getLength() << endl;
-
-    l.deleteElem(1);
-
-    l.appendElem(4);
-
-    for (int i = 0; i < l.getLength(); i++)
+template<typename T>
+void printList(SinglyLinkedList<T>& list) {
+    for (int i = 0; i < list.getLength(); i++)
     {
-        cout << l[i] << " ";
+        cout << list[i] << " ";
     }
-    l.clear();
+    cout << endl;
+}
 
+SinglyLinkedList<int> fillIntOrderList(int leftLim, int rightLim, int step) {
+
+    SinglyLinkedList<int> list;
+    for (int i = leftLim; i < rightLim; i+= step)
+    {
+        list.appendElem(i);
+    }
+    return list;
 }
