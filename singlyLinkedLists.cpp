@@ -23,7 +23,7 @@ template<typename T>
 pair<int, T> findMin(SinglyLinkedList<T>&);
 
 template<typename T>
-void loadStack();
+Stack<T> loadStack(SinglyLinkedList<T>&);
 
 int main()
 {
@@ -51,14 +51,13 @@ int main()
     cout << "List 3 with rearrange max and min elements" << endl;
     printList(list3);
 
-    // demonstration work with stack
-    Stack<int> stack;
-    stack.push(1);
-    stack.push(2);
-    stack.push(3);
+    // demonstration work with stack (load Singly Linked List in Stack)
+    cout << "Load elements from list 3 in stack" << endl;
+    Stack<int> stack = loadStack(list3);
     stack.print();
-    stack.clear();
-    stack.print();
+    cout << "Top element in stack " << stack.getTop() << endl;
+
+
 }
 
 
@@ -79,6 +78,7 @@ SinglyLinkedList<int> fillIntOrderList(int leftLim, int rightLim, int step) {
     {
         list.appendElem(i);
     }
+
     return list;
 }
 
@@ -155,7 +155,6 @@ pair<int, T> findMin(SinglyLinkedList<T>& list)
     }
 
     return make_pair(index, minElem);
-
 }
 
 template<typename T>
@@ -173,4 +172,13 @@ void rearrangeElements(SinglyLinkedList<T>& list, int maxIndex, int minIndex)
 
 
 template<typename T>
-void loadStack();
+Stack<T> loadStack(SinglyLinkedList<T>& list)
+{
+    Stack<T> stack;
+    for (int i = 0; i < list.getLength(); i++)
+    {
+        stack.push(list[i]);
+    }
+
+    return stack;
+}
