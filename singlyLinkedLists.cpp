@@ -1,5 +1,7 @@
 ﻿#include <iostream>
+
 #include "singlyLinkedList.h"
+#include "Stack.h"
 
 using namespace std;
 
@@ -19,6 +21,9 @@ pair<int, T> findMax(SinglyLinkedList<T>&);
 
 template<typename T>
 pair<int, T> findMin(SinglyLinkedList<T>&);
+
+template<typename T>
+void loadStack();
 
 int main()
 {
@@ -45,6 +50,15 @@ int main()
     rearrangeElements(list3, max.first, min.first);
     cout << "List 3 with rearrange max and min elements" << endl;
     printList(list3);
+
+    // demonstration work with stack
+    Stack<int> stack;
+    stack.push(1);
+    stack.push(2);
+    stack.push(3);
+    stack.print();
+    stack.clear();
+    stack.print();
 }
 
 
@@ -157,3 +171,6 @@ void rearrangeElements(SinglyLinkedList<T>& list, int maxIndex, int minIndex)
     list.deleteElem(minIndex + 1);
 }
 
+
+template<typename T>
+void loadStack();
