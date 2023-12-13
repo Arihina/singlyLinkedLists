@@ -25,6 +25,9 @@ pair<int, T> findMin(SinglyLinkedList<T>&);
 template<typename T>
 Stack<T> loadStack(SinglyLinkedList<T>&);
 
+template<typename T>
+void sortList(SinglyLinkedList<T>&);
+
 int main()
 {
     // demonstration of merging two ordered lists
@@ -41,6 +44,8 @@ int main()
     cout << "List 3 (merging list 1 with list 2)" << endl;
 	printList(list3);
 
+    cout << endl;
+
     // demonstration of the rearrange of the maximum and minimum elements of the list
     pair<int, int> max = findMax(list3);
     cout << "Max elem in list 3 = " << max.second << " with index " << max.first << endl;
@@ -51,12 +56,24 @@ int main()
     cout << "List 3 with rearrange max and min elements" << endl;
     printList(list3);
 
+    cout << endl;
+
     // demonstration work with stack (load Singly Linked List in Stack)
     cout << "Load elements from list 3 in stack" << endl;
     Stack<int> stack = loadStack(list3);
     stack.print();
     cout << "Top element in stack " << stack.getTop() << endl;
 
+    cout << endl;
+
+    // demonstration of sorting
+    cout << "List 3 before sort" << endl;
+    printList(list3);
+    sortList(list3);
+    cout << "List 3 after sort" << endl;
+    printList(list3);
+
+    cout << endl;
 
 }
 
@@ -178,7 +195,29 @@ Stack<T> loadStack(SinglyLinkedList<T>& list)
     for (int i = 0; i < list.getLength(); i++)
     {
         stack.push(list[i]);
+        cout << "The intermediate state of the stack" << endl;
+        stack.print();
     }
 
     return stack;
+}
+
+
+template<typename T>
+void sortList(SinglyLinkedList<T>& list)
+{
+    int temp, j;
+    for (int i = 1; i < list.getLength(); i++)
+    {
+        j = i;
+        temp = list[i];
+        while (j > 0 && temp < list[j - 1])
+        {
+            list.insertElem(list[j - 1], j);
+            list.deleteElem(j + 1);
+            j--;
+        }
+        list.insertElem(temp, j);
+        list.deleteElem(j + 1);
+    }
 }
