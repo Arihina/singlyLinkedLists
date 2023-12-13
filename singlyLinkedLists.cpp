@@ -11,6 +11,15 @@ SinglyLinkedList<int> fillIntOrderList(int, int, int);
 template<typename T>
 SinglyLinkedList<T> mergeLists(SinglyLinkedList<T>&, SinglyLinkedList<T>&);
 
+template<typename T>
+void rearrangeElements(SinglyLinkedList<T>&, int, int);
+
+template<typename T>
+pair<int, T> findMax(SinglyLinkedList<T>&);
+
+template<typename T>
+pair<int, T> findMin(SinglyLinkedList<T>&);
+
 int main()
 {
     // demonstration of merging two ordered lists
@@ -27,8 +36,15 @@ int main()
     cout << "List 3 (merging list 1 with list 2)" << endl;
 	printList(list3);
 
-    
+    // demonstration of the rearrange of the maximum and minimum elements of the list
+    pair<int, int> max = findMax(list3);
+    cout << "Max elem in list 3 = " << max.second << " with index " << max.first << endl;
+    pair<int, int> min = findMin(list3);
+    cout << "Min elem in list 3 = " << min.second << " with index " << min.first << endl;
 
+    rearrangeElements(list3, max.first, min.first);
+    cout << "List 3 with rearrange max and min elements" << endl;
+    printList(list3);
 }
 
 
@@ -89,3 +105,55 @@ SinglyLinkedList<T> mergeLists(SinglyLinkedList<T>& list1, SinglyLinkedList<T>& 
 
 	return newList;
 }
+
+
+template<typename T>
+pair<int, T> findMax(SinglyLinkedList<T>& list)
+{
+    int maxElem = list[0];
+    int index = 0;
+
+    for (int i = 0; i < list.getLength(); i++)
+    {
+        if (list[i] >= maxElem)
+        {
+            maxElem = list[i];
+            index = i;
+        }
+    }
+
+    return make_pair(index, maxElem);
+}
+
+template<typename T>
+pair<int, T> findMin(SinglyLinkedList<T>& list)
+{
+    int minElem = list[0];
+    int index = 0;
+
+    for (int i = 0; i < list.getLength(); i++)
+    {
+        if (list[i] <= minElem)
+        {
+            minElem = list[i];
+            index = i;
+        }
+    }
+
+    return make_pair(index, minElem);
+
+}
+
+template<typename T>
+void rearrangeElements(SinglyLinkedList<T>& list, int maxIndex, int minIndex)
+{
+    T elem1 = list[maxIndex];
+    T elem2 = list[minIndex];
+
+    list.insertElem(elem2, maxIndex);
+    list.deleteElem(maxIndex + 1);
+
+    list.insertElem(elem1, minIndex);
+    list.deleteElem(minIndex + 1);
+}
+
