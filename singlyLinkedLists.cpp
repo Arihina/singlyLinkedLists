@@ -1,9 +1,16 @@
 ﻿#include <iostream>
+#include <vector>
 
 #include "singlyLinkedList.h"
 #include "Stack.h"
 
 using namespace std;
+
+typedef vector<vector<int>> matrix;
+
+matrix fillRandomMatrix(int);
+
+void printMatrix(matrix);
 
 template<typename T>
 void printList(SinglyLinkedList<T>&);
@@ -27,6 +34,10 @@ Stack<T> loadStack(SinglyLinkedList<T>&);
 
 template<typename T>
 void sortList(SinglyLinkedList<T>&);
+
+void bypassMatrixDepth(matrix, int);
+
+void depthFirstSearch(int*, int, matrix);
 
 int main()
 {
@@ -75,6 +86,13 @@ int main()
 
     cout << endl;
 
+
+    // demonstration of graph traversal in depth
+    matrix matrix = fillRandomMatrix(6);
+    cout << "Symmetric adjacency matrix" << endl;
+    printMatrix(matrix);
+
+    bypassMatrixDepth(matrix, 0);
 }
 
 
@@ -220,4 +238,82 @@ void sortList(SinglyLinkedList<T>& list)
         list.insertElem(temp, j);
         list.deleteElem(j + 1);
     }
+}
+
+
+matrix fillRandomMatrix(int size) {
+    matrix matrix(size, vector<int>(size, 0));
+
+    for (int i = 0; i < size; i++)
+    {
+        vector<int> row(size, 0);
+        for (int j = 0; j < size; j++)
+        {
+            int num = rand() % 2;
+            if (i < j)
+            {
+                row[j] = num;
+            }
+        }
+        matrix[i] = row;;
+    }
+
+    for (int i = 0; i < size; i++)
+    {
+        for (int j = 0; j < size; j++)
+        {
+            if (i > j)
+            {
+                matrix[i][j] = matrix[j][i];
+            }
+        }
+    }
+
+    return matrix;
+}
+
+void printMatrix(matrix matrix) {
+    for (int i = 0; i < matrix.size(); i++)
+    {
+        for (int j = 0; j < matrix[i].size(); j++)
+        {
+            cout << matrix[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+
+void depthFirstSearch(int* visited, int node, matrix matrix)
+{
+    cout << node << " ";
+    visited[node] = 1;
+
+    for (int i = 0; i < matrix[node].size(); i++)
+    {
+        if (matrix[node][i] == 1 && visited[i] == 0)
+        {
+            depthFirstSearch(visited, i, matrix);
+        }
+    }
+}
+
+void bypassMatrixDepth(matrix matrix, int startNode)
+{
+    if (startNode >= matrix.size())
+    {
+        cout << "The node with this number is not defined" << endl;
+        return;
+    }
+
+    int* visited = new int[matrix.size()];
+
+    for (int i = 0; i < matrix.size(); i++)
+    {
+        visited[i] = 0;
+    }
+
+    cout << "Path: " << endl;
+    depthFirstSearch(visited, startNode, matrix);
+
+    delete[] visited;
 }
