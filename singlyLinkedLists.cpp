@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include <vector>
+#include <algorithm>
 
 #include "singlyLinkedList.h"
 #include "Stack.h"
@@ -8,7 +9,9 @@ using namespace std;
 
 typedef vector<vector<int>> matrix;
 
-matrix fillRandomMatrix(int);
+matrix fillRandomSymmetricMatrix(int);
+
+matrix fillRandomASymmetricMatrix(int);
 
 void printMatrix(matrix);
 
@@ -42,6 +45,10 @@ void bypassMatrixWidth(matrix, int);
 void depthFirstSearch(int*, int, matrix);
 
 void breadthFirstSearch(int*, int, matrix);
+
+void topologicalSort(matrix, int);
+
+void sort(matrix, int, int*, vector<int>&);
 
 int main()
 {
@@ -97,7 +104,7 @@ int main()
 
     // demonstration of graph traversal in depth
     cout << "Traversing the adjacency matrix in depth" << endl;
-    matrix matrix1 = fillRandomMatrix(6);
+    matrix matrix1 = fillRandomSymmetricMatrix(6);
     cout << "Symmetric adjacency matrix" << endl;
     printMatrix(matrix1);
     bypassMatrixDepth(matrix1, 0);
@@ -107,10 +114,25 @@ int main()
 
     // demonstration of graph traversal in width
     cout << "Traversing the adjacency matrix in width" << endl;
-    matrix matrix2 = fillRandomMatrix(6);
+    matrix matrix2 = fillRandomSymmetricMatrix(6);
     cout << "Symmetric adjacency matrix" << endl;
     printMatrix(matrix2);
     bypassMatrixWidth(matrix1, 0);
+
+    cout << endl;
+    cout << endl;
+
+    // demonstration topological sorting
+    cout << "Topological sorting" << endl;
+    matrix matrix3 = fillRandomASymmetricMatrix(6);
+    cout << "Asymmetric adjacency matrix" << endl;
+    printMatrix(matrix3);
+    for (int i = 0; i < matrix3.size(); i++)
+    {
+        cout << "Topological sorting for node " << i << endl;
+        topologicalSort(matrix3, i);
+        cout << endl;
+    }
 }
 
 
@@ -259,7 +281,8 @@ void sortList(SinglyLinkedList<T>& list)
 }
 
 
-matrix fillRandomMatrix(int size) {
+matrix fillRandomSymmetricMatrix(int size)
+{
     matrix matrix(size, vector<int>(size, 0));
 
     for (int i = 0; i < size; i++)
@@ -290,7 +313,26 @@ matrix fillRandomMatrix(int size) {
     return matrix;
 }
 
-void printMatrix(matrix matrix) {
+matrix fillRandomASymmetricMatrix(int size)
+{
+    matrix matrix(size, vector<int>(size, 0));
+
+    for (int i = 0; i < size; i++)
+    {
+        vector<int> row(size, 0);
+        for (int j = 0; j < size; j++)
+        {
+            int num = rand() % 2;
+            row[j] = num;
+        }
+        matrix[i] = row;;
+    }
+
+    return matrix;
+}
+
+void printMatrix(matrix matrix) 
+{
     for (int i = 0; i < matrix.size(); i++)
     {
         for (int j = 0; j < matrix[i].size(); j++)
@@ -380,6 +422,50 @@ void bypassMatrixWidth(matrix matrix, int startNode)
 
     cout << "Path: " << endl;
     breadthFirstSearch(visited, startNode, matrix);
+
+    delete[] visited;
+}
+
+
+void sort(matrix matrix, int node, int* visited, vector<int>& path)
+{
+    visited[node] = 1;
+
+    for (int i = 0; i < matrix[node].size(); i++)
+    {
+        if (visited[matrix[node][i]] == 0)
+        {
+            sort(matrix, matrix[node][i], visited, path);
+        }
+    }
+
+    path.push_back(node);
+}
+
+void topologicalSort(matrix matrix, int node)
+{
+    if (node >= matrix.size())
+    {
+        cout << "The node with this number is not defined" << endl;
+        return;
+    }
+
+    int* visited = new int[matrix.size()];
+
+    for (int i = 0; i < matrix.size(); i++)
+    {
+        visited[i] = 0;
+    }
+
+    vector<int> path;
+    sort(matrix, node, visited, path);
+
+    reverse(path.begin(), path.end());
+
+    for (int i = 0; i < path.size(); i++)
+    {
+        cout << path[i] << " ";
+    }
 
     delete[] visited;
 }
