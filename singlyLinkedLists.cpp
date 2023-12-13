@@ -37,7 +37,11 @@ void sortList(SinglyLinkedList<T>&);
 
 void bypassMatrixDepth(matrix, int);
 
+void bypassMatrixWidth(matrix, int);
+
 void depthFirstSearch(int*, int, matrix);
+
+void breadthFirstSearch(int*, int, matrix);
 
 int main()
 {
@@ -56,6 +60,7 @@ int main()
 	printList(list3);
 
     cout << endl;
+    cout << endl;
 
     // demonstration of the rearrange of the maximum and minimum elements of the list
     pair<int, int> max = findMax(list3);
@@ -68,6 +73,7 @@ int main()
     printList(list3);
 
     cout << endl;
+    cout << endl;
 
     // demonstration work with stack (load Singly Linked List in Stack)
     cout << "Load elements from list 3 in stack" << endl;
@@ -75,6 +81,7 @@ int main()
     stack.print();
     cout << "Top element in stack " << stack.getTop() << endl;
 
+    cout << endl;
     cout << endl;
 
     // demonstration of sorting
@@ -85,14 +92,25 @@ int main()
     printList(list3);
 
     cout << endl;
+    cout << endl;
 
 
     // demonstration of graph traversal in depth
-    matrix matrix = fillRandomMatrix(6);
+    cout << "Traversing the adjacency matrix in depth" << endl;
+    matrix matrix1 = fillRandomMatrix(6);
     cout << "Symmetric adjacency matrix" << endl;
-    printMatrix(matrix);
+    printMatrix(matrix1);
+    bypassMatrixDepth(matrix1, 0);
 
-    bypassMatrixDepth(matrix, 0);
+    cout << endl;
+    cout << endl;
+
+    // demonstration of graph traversal in width
+    cout << "Traversing the adjacency matrix in width" << endl;
+    matrix matrix2 = fillRandomMatrix(6);
+    cout << "Symmetric adjacency matrix" << endl;
+    printMatrix(matrix2);
+    bypassMatrixWidth(matrix1, 0);
 }
 
 
@@ -283,6 +301,7 @@ void printMatrix(matrix matrix) {
     }
 }
 
+
 void depthFirstSearch(int* visited, int node, matrix matrix)
 {
     cout << node << " ";
@@ -314,6 +333,53 @@ void bypassMatrixDepth(matrix matrix, int startNode)
 
     cout << "Path: " << endl;
     depthFirstSearch(visited, startNode, matrix);
+
+    delete[] visited;
+}
+
+
+void breadthFirstSearch(int* visited, int node, matrix matrix)
+{
+    vector<int> nodes;
+    nodes.push_back(node);
+    visited[node] = 1;
+
+    int visitNode;
+    while (!nodes.empty())
+    {
+        visitNode = nodes[0];
+
+        cout << visitNode << " ";
+        nodes.erase(nodes.begin());
+
+        for (int i = 0; i < matrix[visitNode].size(); i++)
+        {
+            if (matrix[visitNode][i] == 1 && visited[i] == 0)
+            {
+                nodes.push_back(i);
+                visited[i] = 1;
+            }
+        }
+    }
+}
+
+void bypassMatrixWidth(matrix matrix, int startNode)
+{
+    if (startNode >= matrix.size())
+    {
+        cout << "The node with this number is not defined" << endl;
+        return;
+    }
+
+    int* visited = new int[matrix.size()];
+
+    for (int i = 0; i < matrix.size(); i++)
+    {
+        visited[i] = 0;
+    }
+
+    cout << "Path: " << endl;
+    breadthFirstSearch(visited, startNode, matrix);
 
     delete[] visited;
 }
