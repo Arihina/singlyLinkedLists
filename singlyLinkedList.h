@@ -50,6 +50,12 @@ public:
 	}
 
 	void insertElem(T elem, int index) {
+		if (index < 0)
+		{
+			cout << "Index out of range" << endl;
+			exit(1);
+		}
+
 		if (index < len)
 		{
 			if (index == 0)
@@ -80,6 +86,12 @@ public:
 	}
 
 	void deleteElem(int index) {
+		if (index < 0)
+		{
+			cout << "Index out of range" << endl;
+			exit(1);
+		}
+
 		if (index < len)
 		{
 			Node* current = head;
@@ -113,6 +125,11 @@ public:
 
 	T operator[](int index) {
 		Node* current = head;
+		if (index < 0)
+		{
+			cout << "Index out of range" << endl;
+			exit(1);
+		}
 		if (index < len)
 		{
 			for (int i = 0; i < index; i++)

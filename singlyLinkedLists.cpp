@@ -12,8 +12,10 @@ using namespace std;
 int main()
 {
     // demonstration of merging two ordered lists
-    SinglyLinkedList<int> list1 = fillIntOrderList(0, 16, 3);
-    SinglyLinkedList<int> list2 = fillIntOrderList(3, 7, 1);
+    SinglyLinkedList<int> list1; 
+    fillIntOrderList(0, 16, 3, list1);
+    SinglyLinkedList<int> list2;
+    fillIntOrderList(3, 7, 1, list2);
 
     cout << "List 1" << endl;
     printList(list1);
@@ -92,6 +94,8 @@ int main()
         topologicalSort(matrix3, i);
         cout << endl;
     }
+
+    getchar();
 }
 
 
@@ -104,16 +108,13 @@ void printList(SinglyLinkedList<T>& list) {
     cout << endl;
 }
 
+void fillIntOrderList(int leftLim, int rightLim, int step, SinglyLinkedList<int>& list){
 
-SinglyLinkedList<int> fillIntOrderList(int leftLim, int rightLim, int step) {
-
-    SinglyLinkedList<int> list;
     for (int i = leftLim; i < rightLim; i+= step)
     {
         list.appendElem(i);
     }
 
-    return list;
 }
 
 
