@@ -18,7 +18,7 @@ void printList(SinglyLinkedList<T>&);
 void fillIntOrderList(int, int, int, SinglyLinkedList<int>&);
 
 template<typename T>
-SinglyLinkedList<T> mergeLists(SinglyLinkedList<T>&, SinglyLinkedList<T>&);
+void mergeLists(SinglyLinkedList<T>&, SinglyLinkedList<T>&, SinglyLinkedList<T>&);
 
 template<typename T>
 void rearrangeElements(SinglyLinkedList<T>&, int, int);
@@ -30,7 +30,7 @@ template<typename T>
 pair<int, T> findMin(SinglyLinkedList<T>&);
 
 template<typename T>
-Stack<T> loadStack(SinglyLinkedList<T>&);
+void loadStack(SinglyLinkedList<T>&, Stack<T>&);
 
 template<typename T>
 void sortList(SinglyLinkedList<T>&);
@@ -46,3 +46,5 @@ void breadthFirstSearch(int*, int, matrix);
 void topologicalSort(matrix, int);
 
 void sort(matrix, int, int*, vector<int>&);
+
+void fillRandomList(SinglyLinkedList<int>&, int);
